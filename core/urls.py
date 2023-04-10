@@ -14,7 +14,9 @@ swagger = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/asset/', include('asset_fort.urls')),
-    path('api/account/', include('account.urls'))
+    path('api/account/', include('account.urls')),
+
+    path('tinymce/', include('tinymce.urls')),
 ] + swagger
 
 if settings.DEBUG:

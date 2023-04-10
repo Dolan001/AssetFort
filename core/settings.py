@@ -42,7 +42,9 @@ CREATED_APP = [
     'rest_framework_simplejwt.token_blacklist',
     'rest_framework_simplejwt',
 
-    'drf_spectacular'
+    'drf_spectacular',
+
+    'tinymce'
 ]
 INSTALLED_APPS = [
     'django.contrib.admin',
