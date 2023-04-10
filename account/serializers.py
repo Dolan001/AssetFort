@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
+from .models import *
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
@@ -47,6 +49,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         
         user.set_password(validated_data['password'])
+        user.is_staff = True
         user.save()
 
         return user
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EmployeeModel
+        fields = '__all__'
