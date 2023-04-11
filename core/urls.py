@@ -17,6 +17,8 @@ urlpatterns = [
     path('api/account/', include('account.urls')),
 
     path('tinymce/', include('tinymce.urls')),
+
+    path('__debug__/', include('debug_toolbar.urls')),
 ] + swagger
 
 if settings.DEBUG:

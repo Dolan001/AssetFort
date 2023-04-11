@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import *
-from account.serializers import UserSerializer
+from account.serializers import *
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -28,6 +28,8 @@ class AssetSerializer(serializers.ModelSerializer):
 class AssetDetailSerializer(serializers.ModelSerializer):
 
     user = UserSerializer()
+    company = CompanySerializer()
+    category = CategorySerializer()
 
     class Meta:
         model = AssetModel

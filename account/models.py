@@ -30,7 +30,7 @@ class CompanyModel(models.Model):
     title = models.CharField(max_length=100)
     description = HTMLField()
     slug = models.SlugField(max_length=100, unique=True)
-    user = models.ForeignKey(User, on_delete= models.CASCADE, related_name='company_user')
+    user = models.OneToOneField(User, on_delete= models.CASCADE, related_name='company_user')
     contact_no = models.CharField(max_length=50)
     location = models.CharField(max_length=100, null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
