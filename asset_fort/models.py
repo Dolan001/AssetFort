@@ -12,6 +12,8 @@ from django.db.models.signals import post_save, pre_save
 
 from tinymce.models import HTMLField
 
+from account.models import CompanyModel
+
 
 def asset_image_rename(instance, filename):
     upload_to = 'asset/images'
@@ -35,6 +37,7 @@ class AssetModel(models.Model):
     slug = models.SlugField(max_length=50, unique=True)
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='assets')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_assets')
+    company = models.ForeignKey(CompanyModel, on_delete=models.CASCADE, related_name='company_assets')
     asset_manufacturer = models.CharField(max_length=100)
     description = HTMLField()
     asset_image = models.ImageField(default="default.jpeg", upload_to = asset_image_rename)

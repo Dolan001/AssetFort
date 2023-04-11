@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-iv^2dz#0k4q0qy3nrp1l8dytmp=#s52w0&9wmu5cr-3ln*sfd6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -141,8 +141,8 @@ REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'auth'
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Your Project API',
-    'DESCRIPTION': 'Your project description',
+    'TITLE': 'Asset Fort APIs',
+    'DESCRIPTION': 'Asset Management System',
     'VERSION': '1.0.0',
     "SCHEMA_PATH_PREFIX": r"/api/+",
     'SERVE_INCLUDE_SCHEMA': False,

@@ -55,8 +55,48 @@ class RegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class CompanySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CompanyModel
+        fields = '__all__'
+
+        extra_kwargs = {
+            'slug': {'read_only': True},
+            'user' : {'read_only': True}
+            }
+
+class UserSerializer(serializers.ModelSerializer):
+
+    # company = serializers.CharField(source = 'company_user', read_only = True)
+    company = CompanySerializer(read_only = True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'company')
+
+
+
 class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EmployeeModel
+        fields = '__all__'
+
+
+class EmployeeDetailsSerializer(serializers.ModelSerializer):
+
+    company = CompanySerializer()
+    class Meta:
+        model = EmployeeModel
+        fields = '__all__'
+
+
+class CompanyDetailSerializer(serializers.ModelSerializer):
+
+    user = UserSerializer()
+    company_employee = EmployeeSerializer(many=True)
+
+    class Meta:
+        model = CompanyModel
         fields = '__all__'
