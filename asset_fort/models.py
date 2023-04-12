@@ -55,8 +55,6 @@ class AssetModel(models.Model):
     date_purchased = models.DateTimeField()
     asset_conditions = models.CharField(max_length=355, choices=ASSET_CONDITION, default='VERY_GOOD')
     asset_condition_description = HTMLField()
-    asset_issued = models.IntegerField(default=0)
-    asset_available = models.IntegerField(default=1)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -87,8 +85,8 @@ class AssetLogModel(models.Model):
     assign_date = models.DateTimeField(auto_now_add=True)
     return_date = models.DateTimeField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
-    asset_conditions = models.CharField(max_length=355, choices=ASSET_CONDITION, default='NONE')
-    asset_condition_description = HTMLField()
+    return_asset_conditions = models.CharField(max_length=355, choices=ASSET_CONDITION, default='NONE')
+    return_asset_condition_description = HTMLField()
 
     def __str__(self):
         return f'{self.issue_no} to {self.asset_assigned_to}'
