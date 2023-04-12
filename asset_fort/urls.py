@@ -7,6 +7,7 @@ from .views import *
 router = DefaultRouter()
 
 router.register("category", CategoryViewSet, basename="category")
+router.register('issued', AssetIssuedViewSet, basename="issued")
 router.register('', AssetViewSet, basename="asset")
 
 urlpatterns = [

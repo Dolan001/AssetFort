@@ -34,3 +34,21 @@ class AssetDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetModel
         fields = '__all__'
+
+
+class AssetIssuedSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AssetIssuedModel
+        fields = '__all__'
+
+
+class AssetIssuedDetailSerializer(serializers.ModelSerializer):
+
+    asset = AssetDetailSerializer()
+    asset_assignee = UserSerializer()
+    asset_assigned_to = EmployeeDetailsSerializer()
+
+    class Meta:
+        model = AssetIssuedModel
+        fields = '__all__'

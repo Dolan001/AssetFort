@@ -12,7 +12,7 @@ from django.db.models.signals import post_save, pre_save
 
 from tinymce.models import HTMLField
 
-from account.models import CompanyModel
+from account.models import CompanyModel, EmployeeModel
 
 
 def asset_image_rename(instance, filename):
@@ -50,6 +50,18 @@ class AssetModel(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class AssetIssuedModel(models.Model):
+    issue_no = models.UUIDField(default=uuid4, unique=True, db_index=True, editable=False)
+    asset = models.ForeignKey(AssetModel, on_delete=models.CASCADE, related_name='issued_asset')
+    asset_assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='asset_assignee')
+    asset_assigned_to = models.ForeignKey(EmployeeModel, on_delete=models.CASCADE, related_name='employee_issued')
+    assign_date = models.DateTimeField(auto_now_add=True)
+    return_date = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.issue_no} to {self.asset_assigned_to}'
 
 
  # category slug generator
