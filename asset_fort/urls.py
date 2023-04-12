@@ -8,6 +8,7 @@ router = DefaultRouter()
 
 router.register("category", CategoryViewSet, basename="category")
 router.register('issued', AssetIssuedViewSet, basename="issued")
+router.register('asset-log', AssetLogViewSet, basename="log")
 router.register('', AssetViewSet, basename="asset")
 
 urlpatterns = [

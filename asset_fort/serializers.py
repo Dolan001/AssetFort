@@ -52,3 +52,17 @@ class AssetIssuedDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssetIssuedModel
         fields = '__all__'
+
+
+class AssetLogSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AssetLogModel
+        fields = '__all__'
+
+
+class AssetLogDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AssetLogModel
+        fields = '__all__'

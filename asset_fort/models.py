@@ -22,6 +22,17 @@ def asset_image_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 
+ASSET_CONDITION = [
+    ('VERY_GOOD', 'No maintenance required'),
+    ('GOOD', 'Only normal maintenance required'),
+    ('MINOR_DEFECT_ONLY', 'Minor maintenance required'),
+    ('DEFECT', 'Minor maintenance required below(10%)'),
+    ('MAINTENANCE_REQUIRED', 'Significant maintenance required (10-20%)'),
+    ('REQUIRES_RENEWAL', 'Significant renewal/upgrade required (20-40%)'),
+    ('ASSET_UNSERVICEABLE', 'Over(50%) of asset requires replacement')
+]
+
+
 class CategoryModel(models.Model):
     title = models.CharField(max_length=50)
     description =models.TextField()
@@ -42,6 +53,8 @@ class AssetModel(models.Model):
     description = HTMLField()
     asset_image = models.ImageField(default="default.jpeg", upload_to = asset_image_rename)
     date_purchased = models.DateTimeField()
+    asset_conditions = models.CharField(max_length=355, choices=ASSET_CONDITION, default='VERY_GOOD')
+    asset_condition_description = HTMLField()
     asset_issued = models.IntegerField(default=0)
     asset_available = models.IntegerField(default=1)
     is_active = models.BooleanField(default=True)
@@ -59,6 +72,23 @@ class AssetIssuedModel(models.Model):
     asset_assigned_to = models.ForeignKey(EmployeeModel, on_delete=models.CASCADE, related_name='employee_issued')
     assign_date = models.DateTimeField(auto_now_add=True)
     return_date = models.DateTimeField(null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
+    is_returned = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.issue_no} to {self.asset_assigned_to}'
+
+
+class AssetLogModel(models.Model):
+    issue_no = models.CharField(max_length=355)
+    asset = models.ForeignKey(AssetModel, on_delete=models.CASCADE, related_name='issued_asset_log')
+    asset_assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='asset_assignee_log')
+    asset_assigned_to = models.ForeignKey(EmployeeModel, on_delete=models.CASCADE, related_name='employee_issued_log')
+    assign_date = models.DateTimeField(auto_now_add=True)
+    return_date = models.DateTimeField(null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
+    asset_conditions = models.CharField(max_length=355, choices=ASSET_CONDITION, default='NONE')
+    asset_condition_description = HTMLField()
 
     def __str__(self):
         return f'{self.issue_no} to {self.asset_assigned_to}'
