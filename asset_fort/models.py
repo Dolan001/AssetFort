@@ -23,6 +23,7 @@ def asset_image_rename(instance, filename):
 
 
 ASSET_CONDITION = [
+    ('NONE', 'None'),
     ('VERY_GOOD', 'No maintenance required'),
     ('GOOD', 'Only normal maintenance required'),
     ('MINOR_DEFECT_ONLY', 'Minor maintenance required'),
@@ -71,25 +72,28 @@ class AssetIssuedModel(models.Model):
     assign_date = models.DateTimeField(auto_now_add=True)
     return_date = models.DateTimeField(null=True, blank=True)
     note = models.TextField(null=True, blank=True)
+    is_active = models.BooleanField(default=True)
     is_returned = models.BooleanField(default=False)
+    return_asset_condition = models.CharField(max_length=355, choices=ASSET_CONDITION, default='NONE')
+    return_asset_condition_description = HTMLField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.issue_no} to {self.asset_assigned_to}'
 
 
-class AssetLogModel(models.Model):
-    issue_no = models.CharField(max_length=355)
-    asset = models.ForeignKey(AssetModel, on_delete=models.CASCADE, related_name='issued_asset_log')
-    asset_assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='asset_assignee_log')
-    asset_assigned_to = models.ForeignKey(EmployeeModel, on_delete=models.CASCADE, related_name='employee_issued_log')
-    assign_date = models.DateTimeField(auto_now_add=True)
-    return_date = models.DateTimeField(null=True, blank=True)
-    note = models.TextField(null=True, blank=True)
-    return_asset_conditions = models.CharField(max_length=355, choices=ASSET_CONDITION, default='NONE')
-    return_asset_condition_description = HTMLField()
+# class AssetLogModel(models.Model):
+#     issue_no = models.CharField(max_length=355)
+#     asset = models.ForeignKey(AssetModel, on_delete=models.CASCADE, related_name='issued_asset_log')
+#     asset_assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='asset_assignee_log')
+#     asset_assigned_to = models.ForeignKey(EmployeeModel, on_delete=models.CASCADE, related_name='employee_issued_log')
+#     assign_date = models.DateTimeField(auto_now_add=True)
+#     return_date = models.DateTimeField(null=True, blank=True)
+#     note = models.TextField(null=True, blank=True)
+#     return_asset_conditions = models.CharField(max_length=355, choices=ASSET_CONDITION, default='NONE')
+#     return_asset_condition_description = HTMLField()
 
-    def __str__(self):
-        return f'{self.issue_no} to {self.asset_assigned_to}'
+#     def __str__(self):
+#         return f'{self.issue_no} to {self.asset_assigned_to}'
 
 
  # category slug generator

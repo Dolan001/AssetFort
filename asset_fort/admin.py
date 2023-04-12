@@ -8,7 +8,7 @@ app_models = apps.get_app_config('asset_fort').get_models()
 class ListAdminMixin(object):
     def __init__(self, model, admin_site):
         self.list_display = [field.name for field in model._meta.fields if field.name != 'description']
-        self.exclude = ['slug']
+        self.exclude = ['slug', 'return_asset_condition', 'return_asset_condition_description']
         super(ListAdminMixin, self).__init__(model, admin_site)
 
 

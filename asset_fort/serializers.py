@@ -43,9 +43,9 @@ class AssetIssuedSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AssetIssuedDetailSerializer(serializers.ModelSerializer):
+class AssetReturnSerializer(serializers.ModelSerializer):
 
-    asset = AssetDetailSerializer()
+    asset = AssetSerializer()
     asset_assignee = UserSerializer()
     asset_assigned_to = EmployeeDetailsSerializer()
 
@@ -54,15 +54,26 @@ class AssetIssuedDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class AssetLogSerializer(serializers.ModelSerializer):
+class AssetIssuedDetailSerializer(serializers.ModelSerializer):
+
+    asset = AssetDetailSerializer()
+    asset_assignee = UserSerializer()
+    asset_assigned_to = EmployeeDetailsSerializer()
 
     class Meta:
-        model = AssetLogModel
-        fields = '__all__'
+        model = AssetIssuedModel
+        exclude = ('return_asset_condition', 'return_asset_condition_description')
 
 
-class AssetLogDetailSerializer(serializers.ModelSerializer):
+# class AssetLogSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = AssetLogModel
-        fields = '__all__'
+#     class Meta:
+#         model = AssetLogModel
+#         fields = '__all__'
+
+
+# class AssetLogDetailSerializer(serializers.ModelSerializer):
+
+#     class Meta:
+#         model = AssetLogModel
+#         fields = '__all__'
