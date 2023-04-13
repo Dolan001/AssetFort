@@ -8,6 +8,7 @@ router = DefaultRouter()
 
 router.register('employee', EmployeeViewSet, basename='employee')
 router.register('company', CompanyViewSet, basename='company')
+router.register('subscription', SubcriptionViewSet, basename='subscription')
 
 
 urlpatterns = [

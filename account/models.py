@@ -58,6 +58,22 @@ class EmployeeModel(models.Model):
     def __str__(self):
         return self.employee_id
 
+
+#Subscription for user
+
+class SubscriptionModel(models.Model):
+    subscription_id = models.UUIDField(default=uuid4, unique=True, db_index=True, editable=False)
+    title = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_subscriptions')
+    start_date = models.DateTimeField(auto_now_add=True)
+    end_date = models.DateTimeField()
+    paid_amount = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    stripe_token = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'{self.subscription_id} and {self.title}'
+
 # company slug generator
 @receiver(pre_save, sender=CompanyModel)
 def company_slug_pre_save_receiver(sender, instance, *args, **kwargs):

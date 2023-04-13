@@ -100,3 +100,17 @@ class CompanyDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = CompanyModel
         fields = '__all__'
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SubscriptionModel
+        fields = '__all__'
+
+
+class SubscriptionDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SubscriptionModel
+        fields = '__all__'

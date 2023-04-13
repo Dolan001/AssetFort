@@ -33,7 +33,7 @@ ASSET_CONDITION = [
     ('ASSET_UNSERVICEABLE', 'Over(50%) of asset requires replacement')
 ]
 
-
+# Categories for assets
 class CategoryModel(models.Model):
     title = models.CharField(max_length=50)
     description =models.TextField()
@@ -42,7 +42,8 @@ class CategoryModel(models.Model):
     def __str__(self):
         return self.title
     
-    
+
+# Store assets    
 class AssetModel(models.Model):
     serial_num = models.CharField(max_length=100)
     title = models.CharField(max_length=50)
@@ -64,6 +65,7 @@ class AssetModel(models.Model):
         return self.title
 
 
+# Asset Issued model
 class AssetIssuedModel(models.Model):
     issue_no = models.UUIDField(default=uuid4, unique=True, db_index=True, editable=False)
     asset = models.ForeignKey(AssetModel, on_delete=models.CASCADE, related_name='issued_asset')

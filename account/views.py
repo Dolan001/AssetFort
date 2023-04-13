@@ -1,3 +1,4 @@
+import stripe
 from django.shortcuts import render
 
 from rest_framework import generics, viewsets, status, permissions, authentication
@@ -88,3 +89,50 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(employee)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class SubcriptionViewSet(viewsets.ModelViewSet):
+    queryset = SubscriptionModel.objects.all()
+    serializer_class = SubscriptionSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_serializer_class(self):
+        return SubscriptionDetailSerializer if self.action in ['list', 'retrieve'] else SubscriptionSerializer
+
+    def list(self, request, *args, **kwargs):
+        user = request.user
+
+        queryset = SubscriptionModel.objects.filter(user=user)
+        serializer = self.get_serializer(queryset, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    # stripe token generated after submitting card info
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid(raise_exception=True):
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+            paid_amount = serializer.validated_data['paid_amount']
+            try:
+                charge = stripe.Charge.create(
+                    amount = int(paid_amount * 100),
+                    currency='USD',
+                    description = 'Card Payment System',
+                    source=serializer.validated_data['stripe_token']
+                )
+
+                serializer.save(user = request.user, paid_amount=paid_amount)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except Exception:
+                print('error')
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        user = request.user
+
+        queryset = SubscriptionModel.objects.filter(user=user, pk=pk)
+        serializer = self.get_serializer(queryset, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)     
+

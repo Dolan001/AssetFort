@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -145,6 +146,9 @@ SIMPLE_JWT = {
 }
 REST_USE_JWT = True
 JWT_AUTH_COOKIE = 'auth'
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51KcYaKK4562rNFMHMUk7rmSiAPJMUVTZyfil2XWiLz8kFUBES3YZIHILMpFdqp9mOz7de3LF83ZqYjltmhe1wcJC00hflwrOHg'
+STRIPE_SECRET_KEY = 'sk_test_51KcYaKK4562rNFMHkEJ9VIH0lCKhfQT8i6ljnOsCSJHnS7RZYNW6qfGreE30tosZhr8qNWjpJrpw8XIqU8Jvue2T001YPPJbDJ'
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Asset Fort APIs',
